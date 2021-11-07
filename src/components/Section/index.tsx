@@ -35,7 +35,7 @@ const Section: FC<SectionProps> = ({ section }) => {
 
   return (
     <>
-      <h3>{title}</h3>
+      <h3 className="text-xl mb-5">{title}</h3>
       <section>{sectionElements}</section>
     </>
   );

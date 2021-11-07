@@ -3,13 +3,19 @@ import { getFormFieldsInitialState } from './helpers';
 export enum FormActionType {
   CHANGE_FIELD_VALUE = 'CHANGE_FIELD_VALUE',
   CHANGE_CURRENT_SECTION = 'CHANGE_CURRENT_SECTION',
+  ADD_ERROR = 'ADD_ERROR',
+  REMOVE_ERROR = 'REMOVE_ERROR'
 }
 
-export type FormFields = Record<string, string | number | readonly string[] | undefined>;
+export type FormFields = Record<
+  string,
+  string | number | readonly string[] | undefined
+>;
 
 export interface FormState {
   formFields: FormFields;
   currentSection: number;
+  errors: string[];
 }
 
 interface FormActionPayload {
@@ -25,6 +31,7 @@ export interface FormAction {
 export const initialState: FormState = {
   formFields: getFormFieldsInitialState(),
   currentSection: 0,
+  errors: [],
 };
 
 export const formReducer = (
@@ -46,6 +53,16 @@ export const formReducer = (
       return {
         ...state,
         currentSection: payload.value,
+      };
+    case FormActionType.ADD_ERROR:
+      return {
+        ...state,
+        errors: [...state.errors, payload.value],
+      };
+    case FormActionType.REMOVE_ERROR:
+      return {
+        ...state,
+        errors: state.errors.filter(error => error !== payload.value),
       };
     default:
       return state;

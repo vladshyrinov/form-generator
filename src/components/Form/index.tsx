@@ -1,28 +1,17 @@
+import { useMemo } from 'react';
 import Section from 'components/Section';
 import formInstructions from 'data/form_instructions.json';
 import { useFormContext } from 'providers/FormProvider/FormContext';
-import { FormActionType, FormFields } from 'providers/FormProvider/formReducer';
-import { useMemo } from 'react';
+import { FormActionType } from 'providers/FormProvider/formReducer';
+
+import { isFormButtonDisabled } from './helpers';
 
 const job = formInstructions as Frontier.Job;
 const { sections } = job;
 
-const isFormButtonDisabled = (
-  currentSection: number,
-  formFields: FormFields,
-) => {
-  const section = sections[currentSection];
-
-  return !section.content.every(
-    (element: Frontier.Element) =>
-      !element.metadata.required ||
-      (formFields[element.id] !== undefined && formFields[element.id] !== ''),
-  );
-};
-
 const Form = () => {
   const {
-    state: { currentSection, formFields },
+    state: { currentSection, formFields, errors },
     dispatch,
   } = useFormContext();
 
@@ -44,23 +33,31 @@ const Form = () => {
   };
 
   const isButtonDisabled = useMemo(
-    () => isFormButtonDisabled(currentSection, formFields),
-    [currentSection, formFields],
+    () => isFormButtonDisabled(currentSection, formFields, errors),
+    [currentSection, formFields, errors],
   );
 
   return (
-    <form>
-      <Section
-        key={sections[currentSection].id}
-        section={sections[currentSection]}
-      />
-      <button
-        onClick={isSubmit ? onSubmit : onNext}
-        disabled={isButtonDisabled}
-      >
-        {isSubmit ? 'Submit' : 'Next'}
-      </button>
-    </form>
+    <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 max-w-md mx-auto sm:max-w-xl border border-primary_color">
+      <span className="text-sm">
+        Step {currentSection + 1} of {sections.length}
+      </span>
+      <form>
+        <Section
+          key={sections[currentSection].id}
+          section={sections[currentSection]}
+        />
+        <button
+          className={`my-5 ${
+            isButtonDisabled ? 'bg-gray-500' : 'bg-green-500'
+          } text-white font-semibold py-2 px-4 rounded`}
+          onClick={isSubmit ? onSubmit : onNext}
+          disabled={isButtonDisabled}
+        >
+          {isSubmit ? 'Submit' : 'Next'}
+        </button>
+      </form>
+    </div>
   );
 };
 

@@ -1,4 +1,4 @@
-import { FC, useMemo } from 'react';
+import { FC } from 'react';
 import { useFormContext } from 'providers/FormProvider/FormContext';
 import { FormActionType } from 'providers/FormProvider/formReducer';
 
@@ -13,11 +13,6 @@ const Select: FC<SelectProps> = ({ element }) => {
   } = useFormContext();
 
   const { id, question_text, metadata } = element;
-
-  const selectedOptions = useMemo(
-    () => new Set((formFields[id] as readonly string[]) || undefined),
-    [formFields, id],
-  );
 
   const onChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, options } = e.target;
@@ -37,15 +32,17 @@ const Select: FC<SelectProps> = ({ element }) => {
   };
 
   return (
-    <label>
+    <label className="block text-gray-700 text-sm font-bold mb-5">
       {question_text}{' '}
-      <select name={id} onChange={onChange} multiple>
+      <select
+        className="block appearance-none w-full bg-background_color border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+        name={id}
+        onChange={onChange}
+        value={formFields[id]}
+        multiple
+      >
         {metadata.options?.map(option => (
-          <option
-            key={option.value}
-            value={option.value}
-            selected={selectedOptions.has(option.value)}
-          >
+          <option key={option.value} value={option.value}>
             {option.label}
           </option>
         ))}

@@ -8,7 +8,11 @@ const { sections } = job;
 export const getFormFieldsInitialState = () =>
   sections.reduce((acc, section: Frontier.Section) => {
     for (let element of section.content) {
-      acc[element.id] = '';
+      if (element.type === 'multichoice') {
+        acc[element.id] = [];
+      } else {
+        acc[element.id] = '';
+      }
     }
 
     return acc;

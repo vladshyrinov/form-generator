@@ -23,9 +23,11 @@ const TextArea: FC<TextAreaProps> = ({ element }) => {
   };
 
   return (
-    <label>
-      {question_text}{' '}
+    <label className="block text-gray-700 text-sm font-bold mb-5">
+      {question_text} {metadata.required ? '(required)' : ''}
       <textarea
+        className="bg-background_color w-full px-3 py-2 text-gray-700 border rounded-lg focus:outline-none"
+        rows={4}
         name={id}
         placeholder={metadata.placeholder}
         onChange={onChange}
