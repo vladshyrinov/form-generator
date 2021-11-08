@@ -14,8 +14,7 @@ const Select: FC<SelectProps> = ({ element }) => {
 
   const { id, question_text, metadata } = element;
 
-  const onChange = useCallback(
-    () => (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const onChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
       const { name, options } = e.target;
 
       const selected = [];
