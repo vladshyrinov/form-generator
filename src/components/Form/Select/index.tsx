@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useCallback, useMemo } from 'react';
 import { useFormContext } from 'providers/FormProvider/FormContext';
 import { FormActionType } from 'providers/FormProvider/formReducer';
 
@@ -14,22 +14,35 @@ const Select: FC<SelectProps> = ({ element }) => {
 
   const { id, question_text, metadata } = element;
 
-  const onChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const { name, options } = e.target;
+  const onChange = useCallback(
+    () => (e: React.ChangeEvent<HTMLSelectElement>) => {
+      const { name, options } = e.target;
 
-    const selected = [];
+      const selected = [];
 
-    for (let i = 0; i < options.length; i++) {
-      if (options[i].selected) {
-        selected.push(options[i].value);
+      for (let i = 0; i < options.length; i++) {
+        if (options[i].selected) {
+          selected.push(options[i].value);
+        }
       }
-    }
 
-    dispatch({
-      type: FormActionType.CHANGE_FIELD_VALUE,
-      payload: { field: name, value: selected },
-    });
-  };
+      dispatch({
+        type: FormActionType.CHANGE_FIELD_VALUE,
+        payload: { field: name, value: selected },
+      });
+    },
+    [dispatch],
+  );
+
+  const selectOptions = useMemo(
+    () =>
+      metadata.options?.map(option => (
+        <option key={option.value} value={option.value}>
+          {option.label}
+        </option>
+      )),
+    [metadata.options],
+  );
 
   return (
     <label className="block text-gray-700 text-sm font-bold mb-5">
@@ -41,11 +54,7 @@ const Select: FC<SelectProps> = ({ element }) => {
         value={formFields[id]}
         multiple
       >
-        {metadata.options?.map(option => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
+        {selectOptions}
       </select>
     </label>
   );

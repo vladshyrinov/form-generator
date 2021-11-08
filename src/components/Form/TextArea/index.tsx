@@ -18,7 +18,7 @@ const TextArea: FC<TextAreaProps> = ({ element }) => {
     const { name, value } = e.target;
     dispatch({
       type: FormActionType.CHANGE_FIELD_VALUE,
-      payload: { field: name, value: value.trim ? value.trim() : value },
+      payload: { field: name, value: value.trim()},
     });
   };
 
