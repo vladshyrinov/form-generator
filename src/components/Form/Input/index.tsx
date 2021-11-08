@@ -47,7 +47,7 @@ const Input: FC<InputProps> = ({ element }) => {
 
     dispatch({
       type: FormActionType.CHANGE_FIELD_VALUE,
-      payload: { field: name, value: value.trim ? value.trim() : value },
+      payload: { field: name, value: value.trimStart ? value.trimStart() : value },
     });
 
     if (pattern) {

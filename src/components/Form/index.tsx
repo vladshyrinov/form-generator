@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import Section from 'components/Section';
+import Section from 'components/Form/Section';
 import formInstructions from 'data/form_instructions.json';
 import { useFormContext } from 'providers/FormProvider/FormContext';
 import { FormActionType } from 'providers/FormProvider/formReducer';
