@@ -3,7 +3,7 @@
 This project is supposed to let you generate a form from specified json schema
 
 ### App link
-Click and try: [Form Generator]()
+Click and try: [Form Generator](https://auto-form-generator.herokuapp.com/)
 
 ### Launch project
 
