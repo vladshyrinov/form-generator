@@ -20,7 +20,6 @@
     "jsx": "react-jsx",
     "baseUrl": "./src",
     "noFallthroughCasesInSwitch": false,
-    "typeRoots": ["src/types"]
   },
   "include": [
     "src"
